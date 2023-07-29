@@ -1,0 +1,51 @@
+/* Generates 10KHz and 50% duty cycle on PF2 pin of TM4C123 Tiva C Launchpad */
+/* PWM1 module and PWM generator 3 of PWM1 module is used */
+#include "TM4C123GH6PM.h"
+
+int main(void)
+{
+
+/* Clock setting for PWM and GPIO PORT */
+SYSCTL->RCGC0 |= (1U << 20);
+SYSCTL->RCGCPWM |= (1U << 0);       /* Enable clock to PWM1 module */ /*page 354*/
+SYSCTL->RCGCGPIO |= (1U << 4);   /* Enable system clock to PORTE */ /*page 406*/
+SYSCTL->RCC &= ~(1U << 20); /* Directly feed clock to PWM1 module without pre-divider */    /* page 254 */
+
+/* Setting of PF2 pin for M1PWM6 channel output pin */
+GPIOF->AFSEL |= (1 << 4);     /* PE4 sets a alternate function */ /* page 671 */
+GPIOF->PCTL &= ~(0b1111 << 16); /*set PE2 as output pin */ /* page 688 */
+GPIOF->PCTL |= (0x4) << 8; /* make PE2 PWM output pin */
+GPIOF->DEN |= (1U << 4);      /* set PE2 as a digital pin */ /* page 682 */
+
+/* PWM1 channel 6 setting */
+PWM0->_2_CTL &= ~(1<<0);   /* Disable Generator 2 counter */
+PWM0->_2_CTL &= ~(1<<1);   /* select down count mode of counter 2*/
+PWM0->_2_GENA = (1U << 7) | (0x3 << 2) /*(0x0000008C)*/; /* Set PWM output when counter reloaded and clear when matches PWMCMPA */
+PWM0->_2_LOAD = 3200;   /* set load value for 1kHz (16MHz/16000) */
+PWM0->_2_CMPA = 1600-1;  /* set duty cyle to 50% by loading of 16000 to PWM0CMPA */
+PWM0->_2_CTL = 1U;         /* Enable Generator 2 counter */
+PWM0->ENABLE = (1U << 4);      /* Enable PWM0 channel 4 output */
+
+    while(1)
+    {
+            //do nothing
+    }
+}
+
+
+/* This function generates delay in ms */
+/* calculations are based on 16MHz system clock frequency */
+
+void Delay_ms(int time_ms)
+{
+    int i, j;
+    for(i = 0 ; i < time_ms; i++)
+        for(j = 0; j < 3180; j++)
+            {}  /* excute NOP for 1ms */
+}
+
+void SystemInit(void)
+{
+    /* use this only if you are using old versions of Keil uvision */
+    SCB->CPACR |= 0x00f00000;
+}

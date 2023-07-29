@@ -1,0 +1,21 @@
+/*
+ * pwm1_4_pf2.h
+ *
+ *  Created on: Jul 27, 2023
+ *      Author: Phong
+ */
+
+#ifndef PWM1_4_PF2_H_
+#define PWM1_4_PF2_H_
+
+void clockSetting();
+
+void pwmOutputPin();
+
+void pwmSetting();
+
+void pwmEnable();
+
+void pwmPE4();
+
+#endif /* PWM1_4_PF2_H_ */

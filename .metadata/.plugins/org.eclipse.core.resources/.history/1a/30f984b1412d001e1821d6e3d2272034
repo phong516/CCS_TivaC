@@ -1,0 +1,90 @@
+/*
+ * pwm.c
+ *
+ *  Created on: Jul 28, 2023
+ *      Author: Phong
+ */
+
+#include "pwm.h"
+
+void pwmClockEnable(uint8_t pwmModule){
+    SYSCTL->RCGCPWM |= (1U << pwmModule);
+}
+
+void gpioClockState(uint8_t port, uint8_t state){
+    if (state == 1){
+        SYSCTL->RCGCGPIO |= (1U << port); //enable clock for GPIO port
+    }
+    else {
+        SYSCTL->RCGCGPIO &= ~(1U << port); //disable clock for GPIO port
+    }
+}
+
+void pwmClockDivisorState(uint8_t state){
+    if (state == 1){
+        SYSCTL->RCC |= (1U << 20); //enable clock divisor for the PWM clock
+    }
+    else {
+        SYSCTL->RCC &= ~(1U << 20); //disable clock divisor for the PWM clock
+    }
+}
+
+void pwmClockDivisorConfig(uint8_t divisor){
+    SYSCTL->RCC &= ~(0b111U << 17);
+    SYSCTL->RCC |= (divisor << 17);
+}
+
+void alternatePinConfig(GPIOA_Type *port, uint8_t pin, uint8_t alternateFunction){
+    port->AFSEL |= (1U << pin); //enable alternate pin
+    port->PCTL &= ~(0b1111U << (pin * 4)); // clear the bits of alternate pin config
+    port->PCTL |= (alternateFunction << (pin * 4)); // set the bits of alternate pin config
+    port->DEN |= (1U << pin); // enable digital function
+}
+
+void pwmCountModeConfig(uint32_t PWMn_BASE, uint8_t generator, uint8_t countMode){
+    __IO uint32_t *_n_CTL = (uint32_t *)(PWMn_BASE + 0x040UL * generator);
+    *_n_CTL &= ~(1U << 0); // disable PWM generator
+    if (countMode == 0){ //page 1266
+        *_n_CTL &= ~(1U << 1); // count-down mode
+    }
+    else {
+        *_n_CTL |= (1U << 1); // count-up mode
+    }
+}
+
+void pwmLoadConfig(uint32_t PWMn_BASE, uint8_t generator, uint32_t loadValue){
+    __IO uint32_t *_n_LOAD = (uint32_t *)(PWMn_BASE + 0x050UL * generator);
+    *_n_LOAD |= loadValue;
+}
+
+void pwmCompareConfig(uint32_t PWMn_BASE, uint8_t generator, uint8_t compareAB, uint16_t compareValue){
+    __IO uint32_t *_n_CMPx = (uint32_t *)(PWMn_BASE + 0x058UL * generator + 0x004UL * compareAB);
+    *_n_CMPx = compareValue;
+}
+
+void pwmGenABConfig(uint32_t PWMn_BASE, uint8_t generator, uint8_t genAB,
+                   uint8_t bDown, uint8_t bUp, 
+                   uint8_t aDown, uint8_t aUp, 
+                   uint8_t counterLoad, uint8_t counterZero){
+    __IO uint32_t *_n_GENx = (uint32_t *)(PWMn_BASE + 0x060UL * generator + 0x004UL * genAB);
+    *_n_GENx &= ~(0b11111111U << 0); // clear the bits of PWM generator config
+    *_n_GENx |= bDown << 10;
+    *_n_GENx |= bUp << 8;
+    *_n_GENx |= aDown << 6;
+    *_n_GENx |= aUp << 4;
+    *_n_GENx |= counterLoad << 2;
+    *_n_GENx |= counterZero << 0;
+}
+
+void pwmOutputState(uint32_t PWMn_BASE, uint8_t generator, uint8_t outputSignal){
+    __IO uint32_t *_n_CTL = (uint32_t *)(PWMn_BASE + 0x040UL * generator);
+    __IO uint32_t *PWMENABLE = (uint32_t *)(PWMn_BASE + 0x008UL);
+    *_n_CTL |= (1U << 0); // enable PWM generator
+    *PWMENABLE |= (1U << (2 * generator + outputSignal)); // enable PWM output
+}
+
+
+
+
+
+

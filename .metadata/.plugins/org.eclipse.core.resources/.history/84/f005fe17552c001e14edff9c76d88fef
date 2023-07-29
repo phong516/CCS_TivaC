@@ -1,0 +1,78 @@
+#include "pwm.h"
+
+/*  Enable the PWM clock by writing a value of 0x0010.0000 to the RCGC0 register in the System
+Control module (see page 456).  */
+void pwmClockEnable(){
+    SYSCTL_RCGC0_R |= SYSCTL_RCGC0_PWM0;
+    SYSCTL_RCGCPWM_R |= 1U;
+}
+
+/*  Enable the clock to the appropriate GPIO module via the RCGC2 register in the System Control
+module (see page 464).  */
+void gpioClockEnable(){
+    SYSCTL_RCGC2_R |= SYSCTL_RCGC2_GPIOE;
+
+}
+
+/*  In the GPIO module, enable the appropriate pins for their alternate function using the
+GPIOAFSEL register. To determine which GPIOs to configure, see Table 23-4 on page 1344. */
+void gpioAltPinEnable(){
+    GPIO_PORTE_AFSEL_R |= (1U << 4); //PE4
+}
+
+/* Configure the PMCn fields in the GPIOPCTL register to assign the PWM signals to the appropriate
+pins (see page 688 and Table 23-5 on page 1351).    */
+void pwmSignalPinConfig(){
+    GPIO_PORTE_PCTL_R &= (0b1111 << 16)
+    GPIO_PORTE_PCTL_R |= PWM0CONFIG;
+
+    //digital pin
+    GPIO_PORTE_DEN_R |= (1U << 2);
+}
+
+/*  Configure the Run-Mode Clock Configuration (RCC) register in the System Control module
+to use the PWM divide (USEPWMDIV) and set the divider (PWMDIV) to divide by 2 (000).    */
+void pwmDividerConfig(){
+    SYSCTL_RCC_R |= SYSCTL_RCC_USEPWMDIV;
+    SYSCTL_RCC_R &= ~SYSCTL_RCC_PWMDIV_M;
+    SYSCTL_RCC_R |= SYSCTL_RCC_PWMDIV_2;
+}
+
+/*  Configure the PWM generator for countdown mode with immediate updates to the parameters.
+ - Write the PWM0CTL register with a value of 0x0000.0000.
+ - Write the PWM0GENA register with a value of 0x0000.008C.
+ - Write the PWM0GENB register with a value of 0x0000.080C.  */
+void pwmCntDownModeConfig(){
+    PWM0_2_CTL_R |= 0x00000000;
+    PWM0_2_GENA_R |= 0x0000008C;
+    //PWM0_2_GENB_R |= 0x0000008C;
+}
+
+/*  Set the period. For a 25-KHz frequency, the period = 1/25,000, or 40 microseconds. The PWM
+clock source is 10 MHz; the system clock divided by 2. Thus there are 400 clock ticks per period. Use this value to set the PWM0LOAD register. In Count-Down mode, set the LOAD field in the
+PWM0LOAD register to the requested period minus one.
+ - Write the PWM0LOAD register with a value of 0x0000.018F.    */
+void pwmPeriodSet(){
+    PWM0_2_LOAD_R |= 0x0000018F;
+}
+
+/*  Set the pulse width of the MnPWM0 pin for a 25% duty cycle.
+ - Write the PWM0CMPA register with a value of 0x0000.012B.  */
+void mnpwm0PulseWidthSet(){
+    PWM0_2_CMPA_R |= 0x0000012B;
+    //PWM0_2_CMPB_R |= 0x00000063;
+}
+
+
+
+/*  Start the timers in PWM generator 0.
+ - Write the PWM0CTL register with a value of 0x0000.0001.   */
+void pwm0TimerStart(){
+    PWM0_CTL_R |= (0x00000001);
+}
+
+/*  Enable PWM outputs.
+ - Write the PWMENABLE register with a value of 0x0000.0003. */
+void pwmOutputEnable(){
+    PWM0_ENABLE_R |= (1U << 4);
+}
