@@ -50,3 +50,12 @@ modules.order
 Module.symvers
 Mkfile.old
 dkms.conf
+
+#ccs junk files
+.jxbrowser.userdata/
+.metadata/
+.vscode/
+dvt/
+RemoteSystemsTempFiles/
+!*.c
+!*.h
