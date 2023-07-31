@@ -60,3 +60,7 @@ RemoteSystemsTempFiles/
 pwm_demo/*
 !pwm_demo/*.c
 !pwm_demo/*.h
+
+*
+!.gitignore
+!pwm_demo/*.cmd
