@@ -2,6 +2,6 @@
 "./interrupt.obj"
 "./main.obj"
 "./pwm.obj"
-"./tm4c123gh6pm_startup_ccs.obj"
+"./tm4c123gh6pm_startup.obj"
 "../tm4c123gh6pm.cmd"
 -llibc.a

@@ -6,7 +6,7 @@
  */
 #include "gpio.h"
 
-void configGPIOOutput(GPIOA_Type *gpioPortX, uint8_t pin, uint8_t IOType){
+void configGPIOInOut(GPIOA_Type *gpioPortX, uint8_t pin, uint8_t IOType){
     gpioPortX->AFSEL &= ~(1U << pin); //disable alternate pin
     gpioPortX->DEN |= (1U << pin); //enable digital function
 
@@ -22,8 +22,15 @@ void configGPIOOutput(GPIOA_Type *gpioPortX, uint8_t pin, uint8_t IOType){
 }
 
 void configGPIOInterrupt(GPIOA_Type *gpioPortX, uint8_t pin, uint8_t edgeType){
+    gpioPortX->IM &= ~0x7U; //enable interrupt for pin
     gpioPortX->IS &= ~(1U << pin); //set pin as edge sensitive
     gpioPortX->IBE &= ~(1U << pin); //set pin as single edge sensitive
-    gpioPortX->IEV &= ~(1U << pin); //set pin as falling edge sensitive
+    if (edgeType == FALLING_EDGE){
+        gpioPortX->IEV &= ~(1U << pin); //falling edge
+    }
+    else{
+        gpioPortX->IEV |= 1U << pin;    //rising edge
+    }
+    gpioPortX->RIS &= ~0x7U;
     gpioPortX->IM |= (1U << pin); //enable interrupt for pin
 }

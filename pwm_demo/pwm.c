@@ -82,9 +82,3 @@ void pwmOutputState(uint32_t PWMn_BASE, uint8_t generator, uint8_t outputSignal)
     *_n_CTL |= (1U << 0); // enable PWM generator
     *PWMENABLE |= (1U << (2 * generator + outputSignal)); // enable PWM output
 }
-
-
-
-
-
-

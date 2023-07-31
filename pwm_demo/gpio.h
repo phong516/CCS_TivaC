@@ -13,6 +13,9 @@
 #define GPIO_INPUT 0U
 #define GPIO_OUTPUT 1U
 
+#define FALLING_EDGE 0U
+#define RISING_EDGE  1U
+
 #define _GPIOAFSEL_OFFSET   0x420
 
 /**
@@ -22,14 +25,20 @@
  * @param pin   0 to 7
  * @param IOType 0: input, 1: output
  */
-void configGPIOOutput(GPIOA_Type *gpioPortX, uint8_t pin, uint8_t IOType);
+void configGPIOInOut(GPIOA_Type *gpioPortX, uint8_t pin, uint8_t IOType);
 
 /**
  * @brief Config GPIO pin interrupt edge type
  * 
+ * @ref IS page 664
+ * @ref IBE page 665
+ * @ref IEV page 666
+ * @ref IM page 667
+ * @ref ICR page 670
+ * 
  * @param gpioPortX GPIOA to GPIOF or GPIOA_AHB to GPIOF_AHB
  * @param pin  0 to 7
- * @param edgeType 
+ * @param edgeType 0: falling edge, 1: rising edge
  */
 void configGPIOInterrupt(GPIOA_Type *gpioPortX, uint8_t pin, uint8_t edgeType);
 

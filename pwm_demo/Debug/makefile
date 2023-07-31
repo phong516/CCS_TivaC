@@ -14,7 +14,7 @@ ORDERED_OBJS += \
 "./interrupt.obj" \
 "./main.obj" \
 "./pwm.obj" \
-"./tm4c123gh6pm_startup_ccs.obj" \
+"./tm4c123gh6pm_startup.obj" \
 "../tm4c123gh6pm.cmd" \
 $(GEN_CMDS__FLAG) \
 -llibc.a \
@@ -138,15 +138,15 @@ all: $(OBJS) $(CMD_SRCS) $(GEN_CMDS)
 pwm_demo.out: $(OBJS) $(CMD_SRCS) $(GEN_CMDS)
 	@echo 'Building target: "$@"'
 	@echo 'Invoking: Arm Linker'
-	"C:/ti/ccs1220/ccs/tools/compiler/ti-cgt-arm_20.2.7.LTS/bin/armcl" -mv7M4 --code_state=16 --float_support=none -me --define=ccs="ccs" --define=PART_TM4C123GH6PM -g --gcc --diag_warning=225 --diag_wrap=off --display_error_number --abi=eabi -z -m"pwm_demo.map" --heap_size=0 --stack_size=512 -i"C:/ti/ccs1220/ccs/tools/compiler/ti-cgt-arm_20.2.7.LTS/lib" -i"C:/ti/ccs1220/ccs/tools/compiler/ti-cgt-arm_20.2.7.LTS/include" --reread_libs --diag_wrap=off --display_error_number --warn_sections --xml_link_info="pwm_demo_linkInfo.xml" --rom_model -o "pwm_demo.out" $(ORDERED_OBJS)
+	"C:/ti/ccs1220/ccs/tools/compiler/ti-cgt-arm_20.2.7.LTS/bin/armcl" -mv7M4 --code_state=16 --float_support=none -me --define=ccs="ccs" --define=PART_TM4C123GH6PM -g --c99 --gcc --diag_warning=225 --diag_wrap=off --display_error_number --abi=eabi -z -m"pwm_demo.map" --heap_size=0 --stack_size=512 -i"C:/ti/ccs1220/ccs/tools/compiler/ti-cgt-arm_20.2.7.LTS/lib" -i"C:/ti/ccs1220/ccs/tools/compiler/ti-cgt-arm_20.2.7.LTS/include" --reread_libs --diag_wrap=off --display_error_number --warn_sections --xml_link_info="pwm_demo_linkInfo.xml" --rom_model -o "pwm_demo.out" $(ORDERED_OBJS)
 	@echo 'Finished building target: "$@"'
 	@echo ' '
 
 # Other Targets
 clean:
 	-$(RM) $(EXE_OUTPUTS__QUOTED)
-	-$(RM) "gpio.obj" "interrupt.obj" "main.obj" "pwm.obj" "tm4c123gh6pm_startup_ccs.obj" 
-	-$(RM) "gpio.d" "interrupt.d" "main.d" "pwm.d" "tm4c123gh6pm_startup_ccs.d" 
+	-$(RM) "gpio.obj" "interrupt.obj" "main.obj" "pwm.obj" "tm4c123gh6pm_startup.obj" 
+	-$(RM) "gpio.d" "interrupt.d" "main.d" "pwm.d" "tm4c123gh6pm_startup.d" 
 	-@echo 'Finished clean'
 	-@echo ' '
 
