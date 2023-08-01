@@ -1,6 +1,6 @@
 #include "library/uart.h"
 
-void enableUARTModule(uint8_t uartModule, uint8_t port, uint8_t txPin, uint8_t rxPin){
+void enableUARTModule(uint8_t uartModule, uint8_t port, uint8_t rxPin, uint8_t txPin){
     SYSCTL->RCGCUART |= (1U << uartModule);
     SYSCTL->RCGCGPIO |= (1U << port);
     GPIOA_Type *gpioPort;
