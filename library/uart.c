@@ -68,7 +68,7 @@ void enableUARTModule(uint8_t uartModule, uint8_t port, uint8_t txPin, uint8_t r
 }
 
 void uartTransmitByte(UART0_Type *uart, uint8_t data){
-    while (uart->FR & TXFF != 0);
+    while ((uart->FR & TXFF) != 0);
     uart->DR = data;
 }
 

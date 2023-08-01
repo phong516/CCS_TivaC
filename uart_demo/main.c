@@ -2,6 +2,8 @@
 #include "library/uart.h"
 int main(){
 	enableUARTModule(0, 0, 1, 0);
+    uint8_t data[] = "Hello world!\n";
+    uartTransmitBuffer(UART0, data);
 	return 0;
 }
 
