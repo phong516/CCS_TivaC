@@ -4,7 +4,7 @@
  *  Created on: Jul 29, 2023
  *      Author: Phong
  */
-#include "gpio.h"
+#include "library/gpio.h"
 
 void configGPIOInOut(GPIOA_Type *gpioPortX, uint8_t pin, uint8_t IOType){
     gpioPortX->AFSEL &= ~(1U << pin); //disable alternate pin

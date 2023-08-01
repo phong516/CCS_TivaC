@@ -1,4 +1,4 @@
-#include "uart.h"
+#include "library/uart.h"
 
 void enableUARTModule(uint8_t uartModule, uint8_t port, uint8_t txPin, uint8_t rxPin){
     SYSCTL->RCGCUART |= (1U << uartModule);

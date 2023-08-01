@@ -1,9 +1,9 @@
 /* Generates 10KHz and 50% duty cycle on PF2 pin of TM4C123 Tiva C Launchpad */
 /* PWM1 module and PWM generator 3 of PWM1 module is used */
 #include "TM4C123GH6PM.h"
-#include "pwm.h"
-#include "interrupt.h"
-#include "gpio.h"
+#include "library/pwm.h"
+#include "library/interrupt.h"
+#include "library/gpio.h"
 
 #define SW1 (1U << 4)
 #define LED (1U << 2)
