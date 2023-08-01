@@ -21,7 +21,7 @@
  * @param txPin     0 to 7
  * @param rxPin     0 to 7
  */
-void enableUARTModule(uint8_t uartModule, uint8_t port, uint8_t txPin, uint8_t rxPin);
+void enableUARTModule(uint8_t uartModule, uint8_t port, uint8_t rxPin, uint8_t txPin);
 
 /**
  * @brief Transmit a byte
