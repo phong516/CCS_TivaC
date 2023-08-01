@@ -67,3 +67,15 @@ void enableUARTModule(uint8_t uartModule, uint8_t port, uint8_t txPin, uint8_t r
     uart->CTL |= (1U << 0);
 }
 
+void uartTransmitByte(UART0_Type *uart, uint8_t data){
+    while (uart->FR & TXFF != 0);
+    uart->DR = data;
+}
+
+void uartTransmitBuffer(UART0_Type *uart, uint8_t *data){
+    while(*data != '\0'){
+        uartTransmitByte(uart, *data);
+        data++;
+    }
+}
+
