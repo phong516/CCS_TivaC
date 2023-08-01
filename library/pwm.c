@@ -5,7 +5,7 @@
  *      Author: Phong
  */
 
-#include "library/pwm.h"
+#include "pwm.h"
 
 void pwmClockEnable(uint8_t pwmModule){
     SYSCTL->RCGCPWM |= (1U << pwmModule);

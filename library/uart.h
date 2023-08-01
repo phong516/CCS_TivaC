@@ -9,7 +9,7 @@
 #define UART_H_
 
 #include "TM4C123GH6PM.h"
-#include "library/gpio.h"
+#include "gpio.h"
 
 /**
  * @brief Initialize UART module

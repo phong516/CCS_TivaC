@@ -228,8 +228,8 @@
 									<listOptionValue builtIn="false" value="${WorkspaceDirPath}/qpc/include"/>
 									<listOptionValue builtIn="false" value="${WorkspaceDirPath}/qpc/3rd_party/CMSIS/Include"/>
 									<listOptionValue builtIn="false" value="${WorkspaceDirPath}/qpc/3rd_party/ek-tm4c123gxl"/>
-									<listOptionValue builtIn="false" value="${WorkspaceDirPath}"/>
 									<listOptionValue builtIn="false" value="${PROJECT_ROOT}"/>
+									<listOptionValue builtIn="false" value="${WorkspaceDirPath}/library"/>
 									<listOptionValue builtIn="false" value="${CG_TOOL_ROOT}/include"/>
 								</option>
 								<option id="com.ti.ccstudio.buildDefinitions.TMS470_20.2.compilerID.DEBUGGING_MODEL.1653270714" name="Debugging model" superClass="com.ti.ccstudio.buildDefinitions.TMS470_20.2.compilerID.DEBUGGING_MODEL" value="com.ti.ccstudio.buildDefinitions.TMS470_20.2.compilerID.DEBUGGING_MODEL.SYMDEBUG__DWARF" valueType="enumerated"/>
