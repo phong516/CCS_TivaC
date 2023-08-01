@@ -1,64 +1,73 @@
 #include "library/uart.h"
 
-void enableUARTModule(uint8_t uartModule, uint8_t port, uint8_t rxPin, uint8_t txPin){
+void enableUARTModule(uint8_t uartModule){
+    uint8_t port, txPin, rxPin;
     SYSCTL->RCGCUART |= (1U << uartModule);
-    SYSCTL->RCGCGPIO |= (1U << port);
     GPIOA_Type *gpioPort;
     UART0_Type *uart;
-    switch(port){
-        case 0: 
-            gpioPort = GPIOA;
-            break;
-        case 1:
-            gpioPort = GPIOB;
-            break;
-        case 2:
-            gpioPort = GPIOC;
-            break;
-        case 3:
-            gpioPort = GPIOD;
-            break;
-        case 4:
-            gpioPort = GPIOE;
-            break;
-        case 5:
-            gpioPort = GPIOF;
-            break;
-        default:
-            return;
-    }
-
     switch(uartModule){
         case 0: 
             uart = UART0;
+            gpioPort = GPIOA;
+            port = 0;
+            rxPin = 0;
+            txPin = 1;
             break;
         case 1:
             uart = UART1;
+            gpioPort = GPIOB;
+            port = 1;
+            rxPin = 0;
+            txPin = 1;
             break;
         case 2:
             uart = UART2;
+            gpioPort = GPIOD;
+            port = 3;
+            rxPin = 6;
+            txPin = 7;
             break;
         case 3:
             uart = UART3;
+            gpioPort = GPIOC;
+            port = 2;
+            rxPin = 6;
+            txPin = 7;
             break;
         case 4:
             uart = UART4;
+            gpioPort = GPIOC;
+            port = 2;
+            rxPin = 4;
+            txPin = 5;
             break;
         case 5:
             uart = UART5;
+            gpioPort = GPIOE;
+            port = 4;
+            rxPin = 4;
+            txPin = 5;
             break;
         case 6:
             uart = UART6;
+            gpioPort = GPIOD;
+            port = 3;
+            rxPin = 4;
+            txPin = 5;
             break;
         case 7:
             uart = UART7;
+            gpioPort = GPIOE;
+            port = 4;
+            rxPin = 0;
+            txPin = 1;
             break;
         default:
             return;
     }
-    
-    alternatePinConfig(gpioPort, txPin, 0x1);
+    SYSCTL->RCGCGPIO |= (1U << port);
     alternatePinConfig(gpioPort, rxPin, 0x1);
+    alternatePinConfig(gpioPort, txPin, 0x1);
     uart->CTL &= ~(1U << 0);
     uart->IBRD = 10U;
     uart->FBRD = 54U;

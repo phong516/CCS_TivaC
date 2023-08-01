@@ -1,7 +1,7 @@
 #include "TM4C123GH6PM.h"
 #include "library/uart.h"
 int main(){
-	enableUARTModule(0, 0, 1, 0);
+	enableUARTModule(7, 0, 1, 0);
     uint8_t data[] = "Hello world\n";
     uartTransmitBuffer(UART0, data);
 	while (1);
