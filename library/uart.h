@@ -29,7 +29,7 @@ void enableUARTModule(uint8_t uartModule);
  * @param uart uart module, from UART0 to UART7
  * @param data byte to transmit (8-bit data)
  */
-void uartTransmitByte(UART0_Type *uart, uint8_t data);
+void uartTransmitByte(UART0_Type *uart, uint8_t *data);
 
 /**
  * @brief Transmit a buffer
@@ -37,6 +37,6 @@ void uartTransmitByte(UART0_Type *uart, uint8_t data);
  * @param uart uart module, from UART0 to UART7
  * @param data buffer to transmit (contains many bytes)
  */
-void uartTransmitBuffer(UART0_Type *uart, uint8_t *data);
+void uartTransmitBuffer(UART0_Type *uart, uint8_t *data, uint8_t dataSize);
 
 #endif /* UART_H_ */

@@ -69,22 +69,23 @@ void enableUARTModule(uint8_t uartModule){
     alternatePinConfig(gpioPort, rxPin, 0x1);
     alternatePinConfig(gpioPort, txPin, 0x1);
     uart->CTL &= ~(1U << 0);
-    uart->IBRD = 10U;
-    uart->FBRD = 54U;
-    uart->LCRH = 0x60;
+    uart->CTL |= (1U << 8);
+    uart->CTL &= ~(1U << 9);
+    uart->IBRD = 104U;   // 16MHz / (16 * 9600) = 104.1666666666667
+    uart->FBRD = 11U;   // 0.1666666666667 * 64 + 0.5 = 11.1666666666667
+    uart->LCRH |= (0x3 << 5);   // 8-bit data
     uart->CC &= ~(0b1111U);
     uart->CTL |= (1U << 0);
 }
 
-void uartTransmitByte(UART0_Type *uart, uint8_t data){
-    while ((uart->FR & TXFF) != 0);
-    uart->DR = data;
-}
+void uartTransmitByte(UART0_Type *uart, uint8_t *data){
+    while (uart->FR & TXFF);
+    uart->DR = *data;
+  }
 
-void uartTransmitBuffer(UART0_Type *uart, uint8_t *data){
-    while(*data != '\0'){
-        uartTransmitByte(uart, *data);
-        data++;
+void uartTransmitBuffer(UART0_Type *uart, uint8_t *data, uint8_t dataSize){
+    while(dataSize--){
+        uartTransmitByte(uart, data++);
     }
 }
 
