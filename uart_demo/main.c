@@ -1,26 +1,22 @@
-
-#include "TM4C123GH6PM.h"
 #include "library/uart.h"
+#include "library/interrupt.h"
 
-void UARTSend(const uint8_t *pui8Buffer, uint32_t ui32Count)
-{
-
-    while(ui32Count--)
-    {
-
-        while ((UART0->FR & 0x20)){}
-            UART0->DR = *pui8Buffer++;
-    }
-}
-
-int
-main(void)
-{
+int main(void){
     enableUARTModule(0);
+    configISER(UART0_IRQn, 3, 1);
+    enableRxInt(UART0);
     const uint8_t data[] = "Enter";
-    UARTSend(data , 5);
+    uartTransmitBuffer(UART0, data, 5);
 
     while(1)
     {
+    }
+}
+
+void UART0_IRQHandler(){
+    uint32_t intFlags = uartIntStatus(UART0, 1);
+    uartIntClear(UART0, intFlags);
+    while (isRxBusy(UART0)){
+        uartTransmitByte(UART0, uartReceiveByte(UART0));
     }
 }
