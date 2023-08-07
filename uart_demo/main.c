@@ -5,9 +5,10 @@ int main(void){
     enableUARTModule(0);
     configISER(UART0_IRQn, 3, 1);
     enableRxInt(UART0);
-    const uint8_t data[] = "Enter";
-    uartTransmitBuffer(UART0, data, 5);
-
+    const uint8_t data[] = "Enter: ";
+    uartTransmitBuffer(UART0, data, 7);
+    SYSCTL->RCGCGPIO |= (1U << 5);
+    configGPIOInOut(GPIOF, 2, 1);
     while(1)
     {
     }
@@ -16,7 +17,8 @@ int main(void){
 void UART0_IRQHandler(){
     uint32_t intFlags = uartIntStatus(UART0, 1);
     uartIntClear(UART0, intFlags);
-    while (isRxBusy(UART0)){
-        uartTransmitByte(UART0, uartReceiveByte(UART0));
+    if (isRxBusy(UART0)){
+      uartTransmitByte(UART0, uartReceiveByte(UART0));
+        GPIOF->DATA ^= (1U << 2);
     }
 }
