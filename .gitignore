@@ -59,6 +59,14 @@ dvt/
 RemoteSystemsTempFiles/
 
 !.gitignore
-!pwm_demo/*.cmd
 !*.c
 !*.h
+
+*/.launches/
+*/.settings/
+*/Debug/
+*/targetConfigs/
+*.ccsproject
+*.cproject
+*.project
+*.tm4c123gh6pm.cmd
