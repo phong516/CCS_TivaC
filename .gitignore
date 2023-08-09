@@ -63,7 +63,7 @@ pwm_demo/*
 
 !.gitignore
 !pwm_demo/*.cmd
-    
 *
-*.c
-*.h
+!libray/*
+!*.c
+!*.h
