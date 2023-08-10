@@ -1,7 +1,7 @@
 #include "TM4C123GH6PM.h"
 
 #define SYSCLK          16000000UL  // 16 MHz
-#define SYSCLK_1MS       16000UL     // 16 MHz / 1000Hz
+#define SYSCLK_1MS      16000UL     // 16 MHz / 1000Hz
 #define STCTRL_COUNT    0x10000     // 1 << 16
 
 /**

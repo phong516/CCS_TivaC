@@ -11,10 +11,10 @@
 #include "TM4C123GH6PM.h"
 #include "library/gpio.h"
 
-#define TXFE (1U << 7)
-#define RXFF (1U << 6)
-#define TXFF (1U << 5)
-#define RXFE (1U << 4)
+#define TXFE    0x80UL    /* (1U << 7) */
+#define RXFF    0x40UL    /* (1U << 6) */
+#define TXFF    0x20UL     /* (1U << 5) */
+#define RXFE    0x10UL     /* (1U << 4) */
 
 /**
  * @brief Initialize UART module
