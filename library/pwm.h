@@ -44,18 +44,6 @@
 void pwmClockEnable(uint8_t pwmModule);
 
 /**
- * @brief Initialize clock state for GPIO port
- * 
- * @ref page 406
- * 
- * @param port GPIO ports, from 0 to 5 (PORTA to PORTF)
- * @param state 1 for enable, 0 for disable
- * 
- * @return none
- **/
-void gpioClockState(uint8_t port, uint8_t state);
-
-/**
  * @brief Initialize clock divisor for the PWM clock
  * 
  * @ref page 254

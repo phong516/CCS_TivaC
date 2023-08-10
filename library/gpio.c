@@ -6,6 +6,15 @@
  */
 #include "library/gpio.h"
 
+void gpioClockState(uint8_t port, uint8_t state){
+    if (state == 1){
+        SYSCTL->RCGCGPIO |= (1U << port); //enable clock for GPIO port
+    }
+    else {
+        SYSCTL->RCGCGPIO &= ~(1U << port); //disable clock for GPIO port
+    }
+}
+
 void configGPIOInOut(GPIOA_Type *gpioPortX, uint8_t pin, uint8_t IOType){
     gpioPortX->AFSEL &= ~(1U << pin); //disable alternate pin
     gpioPortX->DEN |= (1U << pin); //enable digital function

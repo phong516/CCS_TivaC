@@ -11,14 +11,7 @@ void pwmClockEnable(uint8_t pwmModule){
     SYSCTL->RCGCPWM |= (1U << pwmModule);
 }
 
-void gpioClockState(uint8_t port, uint8_t state){
-    if (state == 1){
-        SYSCTL->RCGCGPIO |= (1U << port); //enable clock for GPIO port
-    }
-    else {
-        SYSCTL->RCGCGPIO &= ~(1U << port); //disable clock for GPIO port
-    }
-}
+
 
 void pwmClockDivisorState(uint8_t state){
     if (state == 0){

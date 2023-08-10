@@ -19,6 +19,18 @@
 #define _GPIOAFSEL_OFFSET   0x420
 
 /**
+ * @brief Initialize clock state for GPIO port
+ *
+ * @ref page 406
+ *
+ * @param port GPIO ports, from 0 to 5 (PORTA to PORTF)
+ * @param state 1 for enable, 0 for disable
+ *
+ * @return none
+ **/
+void gpioClockState(uint8_t port, uint8_t state);
+
+/**
  * @brief Config GPIO pin to be output or input
  * 
  * @param gpioPortX GPIOA to GPIOF or GPIOA_AHB to GPIOF_AHB
