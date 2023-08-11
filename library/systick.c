@@ -20,6 +20,7 @@ void SysTick_delayMs(uint32_t delayMs)
 void SysTick_delayHz(uint32_t delayHz)
 {
     SysTick_delay(SYSCLK / delayHz);
+    SysTick->VAL = 0;
     while((SysTick->CTRL & STCTRL_COUNT) == 0); // wait until count flag is set
 }
 
@@ -29,9 +30,8 @@ void SysTickIntInit(void){
 }
 
 uint32_t getTick(void){
-    uint32_t tick;
     __disable_irq();
-    tick = tickCtr;
+    uint32_t tick = tickCtr;
     __enable_irq();
     return tick;
 }

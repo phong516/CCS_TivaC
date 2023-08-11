@@ -21,6 +21,6 @@
  * @param priority      priority of interrupt
  * @param enable        0: disable, 1: enable
  */
-void configISER(IRQn_Type interruptNum, uint32_t priority, uint8_t enable);
+inline void configISER(IRQn_Type interruptNum, uint32_t priority, uint8_t enable);
 
 #endif /* INTERRUPT_H_ */
