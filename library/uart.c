@@ -79,12 +79,12 @@ void enableUARTModule(uint8_t uartModule){
 }
 
 
-void uartTransmitByte(UART0_Type *uart, const uint8_t byte){
+void uartTransmitByte(UART0_Type *uart, uint8_t byte){
     while (isTxBusy(uart));
         uart->DR = byte;
 }
 
-void uartTransmitBuffer(UART0_Type *uart, const uint8_t *data, uint8_t dataSize){
+void uartTransmitBuffer(UART0_Type *uart, uint8_t *data, uint8_t dataSize){
     while(dataSize--){
        uartTransmitByte(uart, *(data++));
     }

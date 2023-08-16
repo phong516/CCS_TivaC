@@ -27,7 +27,7 @@
 void enableUARTModule(uint8_t uartModule);
 
 
-void uartTransmitByte(UART0_Type *uart, const uint8_t byte);
+void uartTransmitByte(UART0_Type *uart, uint8_t byte);
 
 /**
  * @brief Transmit a buffer
@@ -35,7 +35,7 @@ void uartTransmitByte(UART0_Type *uart, const uint8_t byte);
  * @param uart uart module, from UART0 to UART7
  * @param data buffer to transmit (contains many bytes)
  */
-void uartTransmitBuffer(UART0_Type *uart, const uint8_t *data, uint8_t dataSize);
+void uartTransmitBuffer(UART0_Type *uart, uint8_t *data, uint8_t dataSize);
 
 /**
  * @brief Receive a byte and clear the holding register

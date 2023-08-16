@@ -1,3 +1,6 @@
+#ifndef SYSTICK_H
+#define SYSTICK_H
+
 #include "TM4C123GH6PM.h"
 
 #define SYSCLK          16000000UL  // 16 MHz
@@ -25,4 +28,4 @@ uint32_t getTick(void);
 
 void SysTickInt_delayMs(uint32_t ticks);
 
-
+#endif /* SYSTICK_H */
