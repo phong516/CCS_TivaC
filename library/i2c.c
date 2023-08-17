@@ -85,7 +85,7 @@ uint8_t i2cReceive(I2C0_Type *i2cModule, uint8_t slaveAddress, uint8_t slaveMemo
     *data++ = i2cModule->MDR;
 
     while (--byteCount){
-        i2cModule->MCS = I2C_RUN_BIT | I2C_ACK_BIT;
+        i2cModule->MCS = (byteCount == 1) ? (I2C_RUN_BIT | I2C_STOP_BIT) : (I2C_RUN_BIT | I2C_ACK_BIT);
 
         __i2cWaitTilIdle(i2cModule);
         error = getI2cError(i2cModule);
@@ -94,12 +94,18 @@ uint8_t i2cReceive(I2C0_Type *i2cModule, uint8_t slaveAddress, uint8_t slaveMemo
         *data++ = i2cModule->MDR;
     }
 
-    i2cModule->MCS = I2C_RUN_BIT | I2C_STOP_BIT;
-
-    __i2cWaitTilIdle(i2cModule);
-    error = getI2cError(i2cModule);
-    if (error) return error;
-
     __i2cWaitTilBusIdle(i2cModule);
     return 0;
+}
+
+uint8_t i2cMasterIntStatus(I2C0_Type *i2cModule, uint8_t mis){
+    return (mis == 0) ? (i2cModule->MMIS) : (i2cModule->MMIS);
+}
+
+inline void i2cMasterIntClear(I2C0_Type *i2cModule, uint8_t i2cMasterInt){
+    i2cModule->MICR |= i2cMasterInt;
+}
+
+inline void i2cMasterIntEnable(I2C0_Type *i2cModule, uint8_t i2cMasterInt){
+    i2cModule->MIMR |= i2cMasterInt;
 }

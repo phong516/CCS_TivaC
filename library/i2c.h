@@ -23,18 +23,31 @@
 #define BIT6 0x40UL //1 << 6
 #define BIT7 0x80UL //1 << 7
 
-#define I2C_MASTER_FUNCTION     0x10UL //1 << 4
-#define I2C_BUSY_BIT            0x1UL //1 << 0
-#define I2C_ERROR_BITS          0xEUL //0b1110
-#define I2C_BUS_BUSY_BIT        0X40UL //1 << 6
+#define I2C_MASTER_FUNCTION             0x10UL //1 << 4
+#define I2C_BUSY_BIT                    0x1UL //1 << 0
+#define I2C_ERROR_BITS                  0xEUL //0b1110
+#define I2C_BUS_BUSY_BIT                0X40UL //1 << 6
 
-#define I2C_RUN_BIT             0x1UL //1 << 0
-#define I2C_START_BIT           0x2UL //1 << 1
-#define I2C_STOP_BIT            0x4UL //1 << 2
-#define I2C_ACK_BIT             0x8UL //1 << 3
-#define I2C_HS_BIT              0x10UL //1 << 4
+#define I2C_RUN_BIT                     0x1UL //1 << 0
+#define I2C_START_BIT                   0x2UL //1 << 1
+#define I2C_STOP_BIT                    0x4UL //1 << 2
+#define I2C_ACK_BIT                     0x8UL //1 << 3
+#define I2C_HS_BIT                      0x10UL //1 << 4
 
-#define I2C_MASTER_RECEIVE_BIT  0x1UL // 1 << 0
+#define I2C_MASTER_RECEIVE_BIT          0x1UL // 1 << 0
+#define I2C_MASTER_CLKTIMEOUT_INT_BIT   0x2UL // 1 << 1
+#define I2C_MASTER_INT_BIT              0x1U  // 1 << 0
+
+#define I2C0_SCL                GPIOB, BIT2
+#define I2C0_SDA                GPIOB, BIT3
+#define I2C1_SCL                GPIOA, BIT6
+#define I2C1_SDA                GPIOA, BIT7
+#define I2C2_SCL                GPIOE, BIT4
+#define I2C2_SDA                GPIOE, BIT5
+#define I2C3_SCL                GPIOD, BIT0
+#define I2C3_SDA                GPIOD, BIT1
+
+#define I2C_PINMUX              0x3UL
 
 /**
  * @brief enable run clock for I2C
@@ -111,6 +124,22 @@ inline void __i2cWaitTilBusIdle(I2C0_Type *i2cModule);
  */
 uint8_t i2cTransmit(I2C0_Type *i2cModule, uint8_t slaveAddress, uint8_t slaveMemoryAddress, uint8_t *data, uint8_t byteCount);
 
+/**
+ * @brief read data from i2c slave
+ * 
+ * @param i2cModule I2C0 to I2C3
+ * @param slaveAddress slave address
+ * @param slaveMemoryAddress memory address of the slave
+ * @param data pointer to the data buffer to store the data
+ * @param byteCount number of bytes need to be read
+ * @return uint8_t 
+ */
 uint8_t i2cReceive(I2C0_Type *i2cModule, uint8_t slaveAddress, uint8_t slaveMemoryAddress, uint8_t *data, uint8_t byteCount);
+
+uint8_t i2cMasterIntStatus(I2C0_Type *i2cModule, uint8_t mis);
+
+inline void i2cMasterIntClear(I2C0_Type *i2cModule, uint8_t i2cMasterInt);
+
+inline void i2cMasterIntEnable(I2C0_Type *i2cModule, uint8_t i2cMasterInt);
 
 #endif /* I2C_H_ */
