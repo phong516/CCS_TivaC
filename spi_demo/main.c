@@ -1,6 +1,8 @@
 /* Example code to transmit data with SPI1 module of TM4C123 */
 /* Transmits character A and B with a delay of one second */
 #include "TM4C123GH6PM.h"
+#include "library/gpio.h"
+#include "library/ssi.h"
 
 /* function prototype of SPI and Delay */
 void SPI1_init(void);
@@ -36,17 +38,22 @@ void SPI1_init(void)
 {
     /* Enable clock to SPI1, GPIOD and GPIOF */
 
-    SYSCTL->RCGCSSI |= (1<<1);   /*set clock enabling bit for SPI1 */
-    SYSCTL->RCGCGPIO |= (1<<3); /* enable clock to GPIOD for SPI1 */
-    SYSCTL->RCGCGPIO |= (1<<5); /* enable clock to GPIOF for slave select */
+//    SYSCTL->RCGCSSI |= (1<<1);   /*set clock enabling bit for SPI1 */
+//    SYSCTL->RCGCGPIO |= (1<<3); /* enable clock to GPIOD for SPI1 */
+//    SYSCTL->RCGCGPIO |= (1<<5); /* enable clock to GPIOF for slave select */
+    __enableSSImodule(SYSCTL_RCGC_SSI1);
+    gpioClockState(3, 1);
+    gpioClockState(5, 1);
 
     /*Initialize PD3 and PD0 for SPI1 alternate function*/
 
-    GPIOD->AMSEL &= ~0x09;      /* disable analog functionality RD0 and RD3 */
-    GPIOD->DEN |= 0x09;         /* Set RD0 and RD3 as digital pin */
-    GPIOD->AFSEL |= 0x09;       /* enable alternate function of RD0 and RD3*/
-    GPIOD->PCTL &= ~0x0000F00F; /* assign RD0 and RD3 pins to SPI1 */
-    GPIOD->PCTL |= 0x00002002;  /* assign RD0 and RD3 pins to SPI1  */
+//    GPIOD->AMSEL &= ~0x09;      /* disable analog functionality RD0 and RD3 */
+//    GPIOD->DEN |= 0x09;         /* Set RD0 and RD3 as digital pin */
+//    GPIOD->AFSEL |= 0x09;       /* enable alternate function of RD0 and RD3*/
+//    GPIOD->PCTL &= ~0x0000F00F; /* assign RD0 and RD3 pins to SPI1 */
+//    GPIOD->PCTL |= 0x00002002;  /* assign RD0 and RD3 pins to SPI1  */
+    alternatePinConfig(GPIOD, 0, 0x2);
+    alternatePinConfig(GPIOD, 3, 0x2);
 
     /* Initialize PF2 as a digital output as a slave select pin */
 
@@ -56,11 +63,16 @@ void SPI1_init(void)
 
     /* Select SPI1 as a Master, POL = 0, PHA = 0, clock = 4 MHz, 8 bit data */
 
-    SSI1->CR1 = 0;          /* disable SPI1 and configure it as a Master */
-    SSI1->CC = 0;           /* Enable System clock Option */
-    SSI1->CPSR = 4;         /* Select prescaler value of 4 .i.e 16MHz/4 = 4MHz */
-    SSI1->CR0 = 0x00007;     /* 4MHz SPI1 clock, SPI mode, 8 bit data */
-    SSI1->CR1 |= 2;         /* enable SPI1 */
+//    SSI1->CR1 = 0;          /* disable SPI1 and configure it as a Master */
+//    SSI1->CC = 0;           /* Enable System clock Option */
+//    SSI1->CPSR = 4;         /* Select prescaler value of 4 .i.e 16MHz/4 = 4MHz */
+//    SSI1->CR0 = 0x00007;     /* 4MHz SPI1 clock, SPI mode, 8 bit data */
+//    SSI1->CR1 |= 2;         /* enable SPI1 */
+    __disableSSIoperation(SSI1);
+    __configSSIclk(SSI1, SSI_CLKSRC_SYSCLK);
+    __configSSIclkPrescale(SSI1, 4);
+    __configSSICR0(SSI1, 0, SSI_CR1_DSS_8BIT, 0);
+    __enableSSIoperation(SSI1);
 }
 
 /* This function generates delay in ms */
