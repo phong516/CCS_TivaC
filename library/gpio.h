@@ -18,6 +18,13 @@
 
 #define _GPIOAFSEL_OFFSET   0x420
 
+#define GPIOA_BIT 0U
+#define GPIOB_BIT 1U
+#define GPIOC_BIT 2U
+#define GPIOD_BIT 3U
+#define GPIOE_BIT 4U
+#define GPIOF_BIT 5U
+
 /**
  * @brief Initialize clock state for GPIO port
  *
@@ -68,4 +75,26 @@ void configGPIOInterrupt(GPIOA_Type *gpioPortX, uint8_t pin, uint8_t edgeType);
  * @return none
  */
 void alternatePinConfig(GPIOA_Type *port, uint8_t pin, uint8_t alternateFunction);
+
+/**
+ * @brief read GPIO interrupt status in RIS or MIS
+ * 
+ * @ref GPIORIS: page 668
+ * @ref GPIOMIS: page 669
+ * @ref GPIOICR: page 670
+ * 
+ * @param gpioPortX 
+ * @param misOrRis 1: read MIS, 0: read RIS
+ * @return uint8_t interrupt status
+ */
+uint8_t gpioIntStatus(GPIOA_Type *gpioPortX, uint8_t misOrRis);
+
+/**
+ * @brief clear GPIO interrupt flags
+ * 
+ * @param gpioPortX 
+ * @param intFlags interrupt flags to clear
+ */
+void gpioIntClear(GPIOA_Type *gpioPortX, uint8_t intFlags);
+
 #endif /* GPIO_H_ */

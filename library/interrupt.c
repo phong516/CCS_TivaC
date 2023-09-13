@@ -12,10 +12,8 @@ inline void configISER(IRQn_Type interruptNum, uint32_t priority, uint8_t enable
     // Enable interrupt
     if(enable){
         NVIC_EnableIRQ(interruptNum);
-        __enable_irq();
     }
     else{
         NVIC_DisableIRQ(interruptNum);
-        __disable_irq();
     }
 }

@@ -42,6 +42,7 @@ static void IntDefaultHandler(void);
 //*****************************************************************************
 extern void _c_int00(void);
 extern void GPIOPortF_IRQHandler(void);
+extern void GPIOPortC_IRQHandler(void);
 extern void UART0_IRQHandler(void);
 //*****************************************************************************
 //
@@ -86,7 +87,7 @@ void (*const g_pfnVectors[])(void) =
         IntDefaultHandler,// The SysTick handler
         IntDefaultHandler,// GPIO Port A
         IntDefaultHandler,// GPIO Port B
-        IntDefaultHandler,// GPIO Port C
+        GPIOPortC_IRQHandler,// GPIO Port C
         IntDefaultHandler,// GPIO Port D
         IntDefaultHandler,// GPIO Port E
         UART0_IRQHandler,// UART0 Rx and Tx

@@ -50,3 +50,11 @@ void alternatePinConfig(GPIOA_Type *port, uint8_t pin, uint8_t alternateFunction
     port->PCTL |= (alternateFunction << (pin * 4)); // set the bits of alternate pin config
     port->DEN |= (1U << pin); // enable digital function
 }
+
+uint8_t gpioIntStatus(GPIOA_Type *gpioPortX, uint8_t misOrRis){
+    return (misOrRis) ? (gpioPortX->MIS) : (gpioPortX->RIS);
+}
+
+void gpioIntClear(GPIOA_Type *gpioPortX, uint8_t intFlags){
+    gpioPortX->ICR |= intFlags;
+}
